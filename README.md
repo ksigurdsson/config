@@ -1,2 +1,2 @@
 # config
-UNIX environment configuration
+UNIX environment configuration and settings
