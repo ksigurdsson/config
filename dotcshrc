@@ -1,0 +1,384 @@
+#-------------------------------------------------------------------------------
+# Setup tcsh and csh switches
+#-------------------------------------------------------------------------------
+
+    set   history=1000        # store history of last 1000 commands
+    set   savehist=1          # save history at logout
+    set   addsuffix	      # add / to directories, ' ' otherwise, for file completion
+    set   autocorrect	      # correct mis-spelled path components before completion
+    set   autoexpand	      # invoke expand-history function automatically
+    set   autolist=ambiguous  # list possible completions
+    set   correct=cmd	      # auto-correct either the command or whole line
+    set   listjobs=long	      # list all jobs on suspension
+    set   listlinks	      # resolve links with correct file type
+    set   listmax=256  	      # max items to list without clarification
+    set   pushdtohome	      # pushd with no args does a cd ~
+    set   pushdsilent	      # don't print the stack
+    set   rmstar	      # prompt before rm *
+    set   showdots	      # show hidden files in list and completion
+    set   ignoreeof	      # stop EOF shell logout
+    set   filec	 	      # filename completion
+    set   norebind
+    unset autologout	      # autologout after <parm1> mins
+    unset chase_symlinks      # resolve links on cd etc
+    unset dextract	      # extract rather than rotate on pushd
+    unset fignore	      # list of file suffices to ignore during completion
+    set   matchbeep=never     # [nomatch|ambiguous|notunique|never]
+    set   nobeep	      # disable beeping completely
+    set   beep off	      # disable beeping completely
+
+#-------------------------------------------------------------------------------
+# Set some defaults for common environment
+#-------------------------------------------------------------------------------
+
+    # create UNAME environment variable
+    setenv UNAME `uname`
+
+    # Create system specific environment
+    switch ("${UNAME}")
+        #------------------------------------------
+        # Sun
+        #------------------------------------------
+        case "SunOS"
+            setenv SYS_ARCH Solaris64
+        breaksw
+
+        #------------------------------------------
+        # Linux
+        #------------------------------------------
+        case "Linux"
+            if ( `uname -m` == "i686") then
+                setenv SYS_ARCH Linux32
+            else if ( `uname -m` == "x86_64") then
+                setenv SYS_ARCH Linux64
+                 endif
+            endif
+        breaksw
+
+        #------------------------------------------
+        # MAC OS-X
+        #------------------------------------------
+        case "Darwin"
+            setenv SYS_ARCH OS-X
+        breaksw
+
+        #------------------------------------------
+        # HP-UX
+        #------------------------------------------
+        case "HP-UX"
+             setenv SYS_ARCH HPUX
+        breaksw
+
+        #------------------------------------------
+        # CYGWIN
+        #------------------------------------------
+        case "CYGWIN*"
+            setenv SYS_ARCH Cygwin
+        breaksw
+
+        #------------------------------------------
+        # OTHER
+        #------------------------------------------
+        default
+            setenv SYS_ARCH unknown
+            echo "Warning, Failed to derive SYS_ARCH from ${UNAME}"
+        breaksw
+
+    endsw
+
+    # Setting LANG=C enables some very old-fashioned standard-conforming details
+    # and allows an implementation to skip lots of fancy language processing code.
+    # Another common setting is LANG=en_US.UTF-8.  That setting tells the various 
+    # system functions in libc to expect strings to be in a rich text format.
+    setenv LANG "C"
+
+    # The following environment variables can override the LANG
+    # Remove their setting for the LANG variable to have full effect
+    unsetenv LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE
+    unsetenv LC_MONETARY LC_MESSAGES LC_ALL
+
+#-------------------------------------------------------------------------------
+# Configure PATH
+#-------------------------------------------------------------------------------
+
+# Save original login path
+if ($?PATH) then
+    setenv PATH_LOGIN "${PATH}"
+    setenv PATH ".:${PATH}"
+endif
+
+#-------------------------------------------------------------------------------
+# General user specific environment
+#-------------------------------------------------------------------------------
+    
+    #setenv LS_COLORS    "fi=0:di=01;33:ln=01;36:ex=32:*~=31:*#=31:*.c=32:*.h=32:*.s=32:*.o=31:*.gz=31:*.Z=31:*.jpg=35:*.gif=35:*.pbm=35:*.log=37"
+
+    setenv LS_COLORS    "fi=0:di=34:ln=36:ex=32:*~=31:*#=31:*.c=33:*.h=33:*.s=32:*.o=31:*.gz=31:*.tgz=31:*.Z=31:*.jpg=35:*.gif=35:*.pbm=35:*.log=37"
+    
+# File Types
+
+# di = directory
+# fi = file
+# ln = symbolic link
+# pi = fifo file
+# so = socket file
+# bd = block (buffered) special file
+# cd = character (unbuffered) special file
+# or = symbolic link pointing to a non-existent file (orphan)
+# mi = non-existent file pointed to by a symbolic link (visible when you type ls -l)
+# ex = file which is executable (ie. has 'x' set in permissions).
+
+#   NB: Colour Codes
+
+#   0 restore default color 
+#   1 brighter colors 
+#   4 underlined text 
+#   5 flashing text 
+#  30 black foreground 
+#  31 red foreground 
+#  32 green foreground 
+#  33 yellow (or brown) foreground 
+#  34 blue foreground 
+#  35 purple foreground 
+#  36 cyan foreground 
+#  37 white (or gray) foreground 
+#  40 black background 
+#  41 red background 
+#  42 green background 
+#  43 yellow (or brown) background 
+#  44 blue background 
+#  45 purple background 
+#  46 cyan background 
+#  47 white (or gray) background
+
+    # Set editor
+    if ( "$UNAME" == "Linux" ) setenv EDITOR "emacs -nw"
+    if ( "$UNAME" == "SunOS" ) setenv EDITOR "emacs -nw -no-autoloads"
+
+#-------------------------------------------------------------------------------
+# Setup command prompt
+#-------------------------------------------------------------------------------
+
+# %/  The current working directory.
+# %~  The  current working directory, but with one's
+#    home directory represented by  `~'  and  other
+#    users' home directories represented by `~user'
+#    as per Filename substitution.  `~user' substi-
+#    tution  happens  only if the shell has already
+#    used `~user' in a pathname in the current ses-
+#    sion.
+# %c[[0]n], %.[[0]n]
+#    The  trailing component of the current working
+#    directory, or n trailing components if a digit
+#    n  is given.  If n begins with `0', the number
+#    of skipped  components  precede  the  trailing
+#    component(s)  in  the format `/<skipped>trail-
+#    ing'.  If the ellipsis shell variable is  set,
+#    skipped   components  are  represented  by  an
+#    ellipsis so the whole  becomes  `...trailing'.
+#    `~' substitution is done as in `%~' above, but
+#    the `~' component  is  ignored  when  counting
+#    trailing components.
+# %C  Like %c, but without `~' substitution.
+# %h, %!, !
+#    The current history event number.
+# %M  The full hostname (e.g. jaguar.apple.com).
+# %m  The hostname up to the first `.' (e.g. jaguar).
+# %S (%s)
+#    Start (stop) standout (reverse) mode.
+# %B (%b)
+#    Start (stop) boldfacing mode.
+# %U (%u)
+#    Start (stop) underline mode.
+# %t, %@
+#    The time of day in 12-hour AM/PM format.
+# %T  Like  `%t', but in 24-hour format (but see the
+#    ampm shell variable).
+# %p  The `precise' time of  day  in  12-hour  AM/PM
+#    format, with seconds.
+# %P  Like  `%p', but in 24-hour format (but see the
+#    ampm shell variable).
+# \c  c is parsed as in bindkey.
+# ^c  c is parsed as in bindkey.
+# %%  A single `%'.
+# %n  The user name.
+# %d  The weekday in `Day' format.
+# %D  The day in `dd' format.
+# %w  The month in `Mon' format.
+# %W  The month in `mm' format.
+# %y  The year in `yy' format.
+# %Y  The year in `yyyy' format.
+# %l  The shell's tty.
+# %L  Clears from the end of the prompt  to  end  of
+#    the display or the end of the line.
+# %$  Expands the shell or environment variable name
+#    immediately after the `$'.
+# %#  `>' (or the first character of the promptchars
+#    shell  variable) for normal users, `#' (or the
+#    second character of promptchars) for the supe-
+#    ruser.
+# %{string%}
+#    Includes  string as a literal escape sequence.
+#    It should be  used  only  to  change  terminal
+#    attributes  and  should  not  move  the cursor
+#    location.  This cannot be the last sequence in
+#    prompt.
+# %?  The  return  code of the command executed just
+#    before the prompt.
+# %R  In prompt2, the  status  of  the  parser.   In
+#    prompt3,  the  corrected  string.  In history,
+#    the history string.
+# 
+# Next, on to color. This directly builds on the previous section by adding color
+# escape sequences to the formatting sequences you can use. 
+# The following code colors the hostname red:
+# 
+# %{\033[31m%}%m%{\033[0m%}
+# 
+# The '31' and the %m are the only things you change. The 31 is the color code, and 
+# the %m is obviously where you put whatever you want to color. The rest of it is 
+# the same for every color coding; the beginning starts coloring, and the stuff 
+# afterwards stops coloring ('0' switches it back to default text color). 
+# You can use the following color codes:
+# 
+# 30 - black
+# 31 - red
+# 32 - green
+# 33 - yellow
+# 34 - blue
+# 35 - magenta
+# 36 - cyan
+# 37 - white
+# 
+# Not quite the same as a full Photoshop palette, but you can make a pretty nice 
+# prompt with it. Also, you can modify it further by including another control char:
+# 
+# %{\033[1;31m%}%m%{\033[0m%}
+# 
+# In this case, the '1' will make the following color bold. You can use the following modifiers:
+# 
+# 0 - normal
+# 1 - bold
+# 2 - normal again
+# 3 - background color
+# 4 - underline the text
+# 5 - blinking
+# 
+# You can also specify both a foreground and a background color. Use the following syntax to 
+# get (fairly hideous looking) Christmas colors:
+# 
+# %{\033[2;41;32m%}%m%{\033[0m%}
+# 
+# The '41' is the background color, and the '31' is the foreground color. The background 
+# color codes are the same as the foreground color codes, except they're 40-47 instead of 30-37.
+# 
+# Finally, you can also have a right-justified prompt. This is stored in the RPROMPT variable, 
+# and formatted in exactly the same way as PROMPT. People often like putting the time (%p) in RPROMPT.
+
+    setenv PROMPT_SUFFIX `echo ${HOST} | sed 's/\..*//g'`
+
+    # Root prompt in red - user prompt in green 
+    if ("$USER" == "root" ) then
+        set prompt = "%{\033[31m%}$SYS_ARCH %{\033[00m%}[$PROMPT_SUFFIX] > "
+    else
+        set prompt = "%{\033[32m%}$SYS_ARCH %{\033[00m%}[$PROMPT_SUFFIX] > "
+    endif
+
+    # Set the current working directory as the terminal title
+    #if ( "$UNAME" == "SunOS" ) alias cwdcmd 'printf "\033]0;$cwd\007"'
+    #if ( "$UNAME" == "Linux" ) alias cwdcmd 'echo -n "\033]0;$cwd\007"'
+
+# Default file permissions
+umask 027
+
+#source ~/siglogic/bin/Modules/3.2.10/init/tcsh
+
+# Add hostname into display variable
+#setenv DISPLAY_ORIG $DISPLAY
+#setenv DISPLAY $HOST$DISPLAY
+
+#-------------------------------------------------------------------------------
+# Aliases
+#-------------------------------------------------------------------------------
+
+# Remove rm aliased to rm -i
+unalias rm
+
+switch ("${SYS_ARCH}")
+  case "SunOS"
+    
+  breaksw
+
+  case "Linux32"
+    alias ls                        'ls -h --color=auto'
+  breaksw
+
+  case "Linux64"
+    alias ls                        'ls -h --color=auto'
+  breaksw
+
+  case "OS-X"
+    alias ls                        'ls -h -G'
+    alias emacs                     '/Applications/MacPorts/Emacs.app/Contents/MacOS/Emacs'
+  breaksw
+
+  case "HPUX"
+    alias less                      'more'
+  breaksw
+
+  default
+    echo "default"
+  breaksw
+
+endsw
+
+# Directory Swiching / Listing
+alias ll 			    'ls -Al'
+alias to 			    'pushd \!*'
+alias fr 			    'popd '
+alias DirSize 		            'du -s * | sort -n +0'
+alias u1                            'cd ..'
+alias u2                            'cd ../..'
+alias u3                            'cd ../../..'
+alias u4                            'cd ../../../..'
+alias u5                            'cd ../../../../..'
+
+# Misc
+alias tf			    'tail -f \!*'
+alias h 			    'history '
+alias title                         'echo "\033]2;\!:1\007"'
+#alias screen                        'screen -e ^\`\`'
+
+# VNC
+alias tigervncserver '~/siglogic/bin/tigervnc64/current/bin/vncserver'
+alias tigervncviewer '~/siglogic/bin/tigervnc64/current/bin/vncviewer'
+
+alias VNCSERVER_LCD    'vncserver -depth 24 -geometry 1920x1200'
+alias VNCSERVER_LAPTOP 'vncserver -depth 24 -geometry 1850x1060'
+alias VNCVIEWER        'vncviewer -depth 24'
+
+# Grid Engine
+
+# Current jobs Running & Pending
+alias qtotals 'echo "Running";\
+               qstat -u "*" | egrep "( r )"      | cut -c 28-34 | sort | uniq -c;\
+               echo "Pending";\
+               qstat -u "*" | egrep "( qw )"     | cut -c 28-34 | sort | uniq -c;\
+               echo "Total";\
+               qstat -u "*" | egrep "( r | qw )" | cut -c 28-34 | sort | uniq -c'
+
+# Current running jobs on asic64 queue 
+alias qrunning 'echo "Running asic64.q";\
+                qstat -u "*" | egrep "( r )" | grep asic64.q'
+
+# Submit Batch Binary
+alias qsub_bbin 'qsub -cwd -V -j yes -q asic64.q -b y'
+
+# Submit Batch Script
+alias qsub_bscr 'qsub -cwd -V -j yes -q asic64.q'
+
+# Submit Interactive Binary
+alias qsub_ibin 'qrsh -cwd -V -q asic64.q -now no -b y'
+
+# Submit Interactive Script
+alias qsub_iscr 'qrsh -cwd -V -q asic64.q -now no'
