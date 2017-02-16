@@ -4,13 +4,35 @@
 ;
 ; Use: M-x list-faces-display to see all the faces and what they look like
 ; Use: M-x list-colors-display
+; Use: M-x describe-font to describe the current font
 
 ;--------------------------------------------------------------------------------
 ; Faces (collection of textual attributes, such as fonts and colors)
 
-(setq my-font "-*-lucidatypewriter-medium-*-*-sans-12-*-*-*-*-*-*-*")
-(setq my-bold-font "-*-lucidatypewriter-bold-*-*-sans-12-*-*-*-*-*-*-*")
-
+;; check OS type
+(cond
+ ((string-equal system-type "windows-nt") ; Microsoft Windows
+  (progn
+    (message "Microsoft Windows")
+    (setq my-font "Courier-12:weight=normal")
+    (setq my-bold-font "Courier-12:weight=bold")
+    )
+  )
+ ((string-equal system-type "darwin") ; Mac OS X
+  (progn
+    (message "Mac OS X")
+    (setq my-font "-*-Lucida Sans Typewriter-normal-normal-semicondensed-*-10-*-*-*-p-0-iso10646-1")
+    (setq my-bold-font "-*-Lucida Sans Typewriter-bold-normal-semicondensed-*-10-*-*-*-p-0-iso10646-1")
+    )
+  )
+ ((string-equal system-type "gnu/linux") ; linux
+  (progn
+    (message "Linux")
+    (setq my-font "-*-lucidatypewriter-medium-*-*-sans-12-*-*-*-*-*-*-*")
+    (setq my-bold-font "-*-lucidatypewriter-bold-*-*-sans-12-*-*-*-*-*-*-*")
+    )
+  )
+ )
 ;--------------------------------------
 ; default face (everything inherits from this)
 (set-face-font       'default my-font)

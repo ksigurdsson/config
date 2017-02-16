@@ -61,6 +61,7 @@ switch ("${UNAME}")
     #------------------------------------------
     case "Darwin"
         setenv SYS_ARCH macOS
+        setenv LSCOLORS exfxcxdxcxegedabagacad
     breaksw
 
     #------------------------------------------
@@ -325,7 +326,7 @@ switch ("${SYS_ARCH}")
 
   case "macOS"
     alias ls                        'ls -h -G'
-    alias emacs                     '/Applications/MacPorts/Emacs.app/Contents/MacOS/Emacs'
+    alias emacs                     '/usr/local/Cellar/emacs/25.1/Emacs.app/Contents/MacOS/Emacs'
   breaksw
 
   case "HPUX"
