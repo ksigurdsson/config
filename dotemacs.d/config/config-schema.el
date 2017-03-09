@@ -33,6 +33,7 @@
     )
   )
  )
+
 ;--------------------------------------
 ; default face (everything inherits from this)
 (set-face-font       'default my-font)
@@ -40,6 +41,10 @@
 (set-face-background 'default "gray15") ;Normal
 ;(set-face-foreground 'default "black") ;Projector
 ;(set-face-background 'default "white") ;Projector
+
+;--------------------------------------
+; Set cursor color to white
+(set-face-background 'cursor "white") ;Normal
 
 ;--------------------------------------
 ; Bold/Italics
