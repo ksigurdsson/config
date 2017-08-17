@@ -3,5 +3,13 @@
 echo "Starting Cygwin X Server"
 
 set cmd = './bin/run.exe --quote /usr/bin/bash.exe -l -c "cd; exec /usr/bin/startxwin -- -listen tcp"'
+cd /mnt/c/cygwin64 && $cmd
 
-cd /mnt/c/cygwin64 && exec $cmd
+sleep 5
+echo "X Server Running"
+
+cd /home/karls && cp /mnt/c/cygwin64/home/karls/.Xauthority /home/karls
+
+echo "X Authentication Set"
+
+echo "Run: setenv DISPLAY :0.0"
