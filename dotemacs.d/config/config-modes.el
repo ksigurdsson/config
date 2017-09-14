@@ -22,6 +22,32 @@
 (global-auto-complete-mode t)
 (setq ac-modes '(verilog-mode cperl-mode))
 
+
+;--------------------------------------------------------------------------------
+; ASCIIDOC
+
+(autoload 'adoc-mode "adoc-mode" "ADOC Mode" t)
+(setq auto-mode-alist
+      (append '(
+                ("\\.adoc$"                . adoc-mode)
+                )
+              auto-mode-alist))
+
+(add-hook 'adoc-mode-hook
+          (function (lambda ()
+                      (set-face-attribute 'markup-list-face nil :inherit markup-meta-face :foreground "plum1")
+                      (set-face-attribute 'markup-meta-face nil :foreground "gray70")
+                      (set-face-attribute 'markup-meta-hide-face nil :inherit markup-meta-face)
+                      (set-face-attribute 'markup-table-cell-face nil :inherit markup-table-face :background "MistyRose4")
+                      (set-face-attribute 'markup-table-face nil :inherit markup-meta-face :background "black" :foreground "moccasin")
+                      (set-face-attribute 'markup-title-0-face nil :height 1.0)
+                      (set-face-attribute 'markup-title-1-face nil :height 1.0)
+                      (set-face-attribute 'markup-title-2-face nil :height 1.0)
+                      (set-face-attribute 'markup-title-3-face nil :height 1.0)
+                      (set-face-attribute 'markup-title-4-face nil :height 1.0)
+                      (set-face-attribute 'markup-title-5-face nil :height 1.0)
+                      )))
+
 ;--------------------------------------------------------------------------------
 ; TaskJuggler
 
