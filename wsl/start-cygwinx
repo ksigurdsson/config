@@ -1,15 +1,17 @@
 #!/bin/tcsh
 
+# Notes:
+
+# Useful switch for debugging cygwin run.exe is --run-debug=2
+
 echo "Starting Cygwin X Server"
-
-set cmd = './bin/run.exe --quote /usr/bin/bash.exe -l -c "cd; exec /usr/bin/startxwin -- -listen tcp"'
-cd /mnt/c/cygwin64 && $cmd
-
+set cmd = '/mnt/c/cygwin64/bin/run.exe --wait --quote /usr/bin/bash.exe -l -c "cd; exec /usr/bin/startxwin -- -listen tcp &"'
+eval $cmd
 sleep 5
-echo "X Server Running"
 
+
+echo "Setting X Authentication"
 cd /home/karls && cp /mnt/c/cygwin64/home/karls/.Xauthority /home/karls
 
-echo "X Authentication Set"
 
-echo "Run: setenv DISPLAY :0.0"
+echo "Set DISPLAY environment variable e.g. setenv DISPLAY :0.0"
