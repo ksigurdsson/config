@@ -46,6 +46,7 @@
                       (set-face-attribute 'markup-title-3-face nil :height 1.0)
                       (set-face-attribute 'markup-title-4-face nil :height 1.0)
                       (set-face-attribute 'markup-title-5-face nil :height 1.0)
+                      (set-face-attribute 'markup-secondary-text-face nil :height 1.0)
                       )))
 
 ;--------------------------------------------------------------------------------
