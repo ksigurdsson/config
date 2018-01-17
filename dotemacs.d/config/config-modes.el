@@ -504,6 +504,7 @@
 (folding-add-to-marks-list 'python-mode  "# {{{ " "# }}}")
 (folding-add-to-marks-list 'tcl-mode  "# {{{ " "# }}}")
 (folding-add-to-marks-list 'taskjuggler-mode  "# {{{ " "# }}}")
+(folding-add-to-marks-list 'adoc-mode "// {{{ " "// }}}")
 (if (load "~/.emacs.d/config/folding" 'nomessage 'noerror)
     (folding-mode-add-find-file-hook))
 (autoload 'folding-mode          "~/.emacs.d/config/folding" "Folding mode" t)
