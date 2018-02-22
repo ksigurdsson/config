@@ -106,7 +106,7 @@ unsetenv LC_MONETARY LC_MESSAGES LC_ALL
 # Save original login path
 if ($?PATH) then
    setenv PATH_LOGIN "${PATH}"
-   setenv PATH ".:${PATH}"
+   setenv PATH ".:${HOME}/bin:${PATH}"
 endif
 
 if ($SYS_ARCH == "macOS") then
@@ -355,6 +355,7 @@ alias tf			    'tail -f \!*'
 alias h 			    'history '
 alias title                         'echo "\033]2;\!:1\007"'
 #alias screen                        'screen -e ^\`\`'
+alias grep                          'grep --color=auto'
 
 # VNC
 alias tigervncserver '~/siglogic/bin/tigervnc64/current/bin/vncserver'
