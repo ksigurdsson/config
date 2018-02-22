@@ -18,9 +18,10 @@
 ;--------------------------------------------------------------------------------
 ; Auto-complete
 
-(require 'auto-complete)
-(global-auto-complete-mode t)
-(setq ac-modes '(verilog-mode cperl-mode))
+(when (>= emacs-major-version 24)
+  (require 'auto-complete)
+  (global-auto-complete-mode t)
+  (setq ac-modes '(verilog-mode cperl-mode)))
 
 
 ;--------------------------------------------------------------------------------

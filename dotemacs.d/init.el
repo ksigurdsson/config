@@ -8,7 +8,9 @@
 (add-to-list 'load-path "~/.emacs.d/config")
 (add-to-list 'load-path "~/.emacs.d/prog_modes")
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/config/themes/")
+; Configure emacs themes
+(when (>= emacs-major-version 24)
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/config/themes/"))
 
 ; Configure emacs packages
 (when (>= emacs-major-version 24)
