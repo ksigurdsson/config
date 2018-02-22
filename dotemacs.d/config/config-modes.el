@@ -427,6 +427,7 @@
       (append '(
                 ("\\.tcl$"                . tcl-mode)
                 ("\\.sdc$"                . tcl-mode)
+                ("\\.upf$"                . tcl-mode)
                 )
               auto-mode-alist
               ))
