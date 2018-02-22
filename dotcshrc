@@ -6,28 +6,28 @@
 
 set   history=1000        # store history of last 1000 commands
 set   savehist=1          # save history at logout
-set   addsuffix	      # add / to directories, ' ' otherwise, for file completion
-set   autocorrect	      # correct mis-spelled path components before completion
-set   autoexpand	      # invoke expand-history function automatically
+set   addsuffix	          # add / to directories, ' ' otherwise, for file completion
+set   autocorrect         # correct mis-spelled path components before completion
+set   autoexpand          # invoke expand-history function automatically
 set   autolist=ambiguous  # list possible completions
-set   correct=cmd	      # auto-correct either the command or whole line
-set   listjobs=long	      # list all jobs on suspension
-set   listlinks	      # resolve links with correct file type
-set   listmax=256  	      # max items to list without clarification
-set   pushdtohome	      # pushd with no args does a cd ~
-set   pushdsilent	      # don't print the stack
-set   rmstar	      # prompt before rm *
-set   showdots	      # show hidden files in list and completion
-set   ignoreeof	      # stop EOF shell logout
-set   filec	 	      # filename completion
+set   correct=cmd         # auto-correct either the command or whole line
+set   listjobs=long       # list all jobs on suspension
+set   listlinks           # resolve links with correct file type
+set   listmax=256         # max items to list without clarification
+set   pushdtohome         # pushd with no args does a cd ~
+set   pushdsilent         # don't print the stack
+set   rmstar              # prompt before rm *
+set   showdots            # show hidden files in list and completion
+set   ignoreeof           # stop EOF shell logout
+set   filec               # filename completion
 set   norebind
-unset autologout	      # autologout after <parm1> mins
+unset autologout          # autologout after <parm1> mins
 unset chase_symlinks      # resolve links on cd etc
-unset dextract	      # extract rather than rotate on pushd
-unset fignore	      # list of file suffices to ignore during completion
+unset dextract            # extract rather than rotate on pushd
+unset fignore             # list of file suffices to ignore during completion
 set   matchbeep=never     # [nomatch|ambiguous|notunique|never]
-set   nobeep	      # disable beeping completely
-set   beep off	      # disable beeping completely
+set   nobeep              # disable beeping completely
+set   beep off            # disable beeping completely
 
 #-------------------------------------------------------------------------------
 # Set some defaults for common environment
@@ -109,17 +109,10 @@ if ($?PATH) then
    setenv PATH ".:${PATH}"
 endif
 
-if ($SYS_ARCH == "macOS") then
-   # Required for MacPorts
-   setenv PATH "${PATH}:/opt/local/bin:/opt/local/sbin"
-endif
-   
 #-------------------------------------------------------------------------------
 # General user specific environment
 #-------------------------------------------------------------------------------
     
-#setenv LS_COLORS    "fi=0:di=01;33:ln=01;36:ex=32:*~=31:*#=31:*.c=32:*.h=32:*.s=32:*.o=31:*.gz=31:*.Z=31:*.jpg=35:*.gif=35:*.pbm=35:*.log=37"
-
 setenv LS_COLORS    "fi=0:di=34:ln=36:ex=32:*~=31:*#=31:*.c=33:*.h=33:*.s=32:*.o=31:*.gz=31:*.tgz=31:*.Z=31:*.jpg=35:*.gif=35:*.pbm=35:*.log=37"
     
 # File Types
@@ -298,11 +291,23 @@ endif
 # Default file permissions
 umask 027
 
-#source ~/siglogic/config/Modules/3.2.10/init/tcsh
+#-------------------------------------------------------------------------------
+# Environment Modules
+#-------------------------------------------------------------------------------
 
-# Add hostname into display variable
-#setenv DISPLAY_ORIG $DISPLAY
-#setenv DISPLAY $HOST$DISPLAY
+if (`where module` == "") then
+
+    switch ("${SYS_ARCH}")
+
+        case "Linux64"
+            if (-f /usr/share/modules/init/tcsh) source /usr/share/modules/init/tcsh
+        breaksw
+        
+    endsw
+
+endif
+
+if (-d ${HOME}/tools/modulefiles) setenv MODULEPATH ${MODULEPATH}:${HOME}/tools/modulefiles
 
 #-------------------------------------------------------------------------------
 # Aliases
@@ -326,7 +331,6 @@ switch ("${SYS_ARCH}")
 
   case "macOS"
     alias ls                        'ls -h -G'
-    alias emacs                     '/usr/local/Cellar/emacs/25.1/Emacs.app/Contents/MacOS/Emacs'
   breaksw
 
   case "HPUX"
@@ -356,36 +360,34 @@ alias h 			    'history '
 alias title                         'echo "\033]2;\!:1\007"'
 #alias screen                        'screen -e ^\`\`'
 
-# VNC
-alias tigervncserver '~/siglogic/bin/tigervnc64/current/bin/vncserver'
-alias tigervncviewer '~/siglogic/bin/tigervnc64/current/bin/vncviewer'
-
-alias VNCSERVER_LCD    'vncserver -depth 24 -geometry 1920x1200'
-alias VNCSERVER_LAPTOP 'vncserver -depth 24 -geometry 1850x1060'
-alias VNCVIEWER        'vncviewer -depth 24'
+alias VNCSERVER                     'vncserver -depth 24 -geometry 1920x1200'
+alias VNCVIEWER                     'vncviewer -depth 24'
 
 # Grid Engine
+if (`where qsub` != "") then
 
-# Current jobs Running & Pending
-alias qtotals 'echo "Running";\
-               qstat -u "*" | egrep "( r )"      | cut -c 28-34 | sort | uniq -c;\
-               echo "Pending";\
-               qstat -u "*" | egrep "( qw )"     | cut -c 28-34 | sort | uniq -c;\
-               echo "Total";\
-               qstat -u "*" | egrep "( r | qw )" | cut -c 28-34 | sort | uniq -c'
+  # Current jobs Running & Pending
+  alias qtotals 'echo "Running";\
+                 qstat -u "*" | egrep "( r )"      | cut -c 28-34 | sort | uniq -c;\
+                 echo "Pending";\
+                 qstat -u "*" | egrep "( qw )"     | cut -c 28-34 | sort | uniq -c;\
+                 echo "Total";\
+                 qstat -u "*" | egrep "( r | qw )" | cut -c 28-34 | sort | uniq -c'
 
-# Current running jobs on asic64 queue 
-alias qrunning 'echo "Running asic64.q";\
-                qstat -u "*" | egrep "( r )" | grep asic64.q'
+  # Current running jobs on asic64 queue 
+  alias qrunning 'echo "Running asic64.q";\
+                  qstat -u "*" | egrep "( r )" | grep asic64.q'
 
-# Submit Batch Binary
-alias qsub_bbin 'qsub -cwd -V -j yes -q asic64.q -b y'
+  # Submit Batch Binary
+  alias qsub_bbin 'qsub -cwd -V -j yes -q asic64.q -b y'
 
-# Submit Batch Script
-alias qsub_bscr 'qsub -cwd -V -j yes -q asic64.q'
+  # Submit Batch Script
+  alias qsub_bscr 'qsub -cwd -V -j yes -q asic64.q'
 
-# Submit Interactive Binary
-alias qsub_ibin 'qrsh -cwd -V -q asic64.q -now no -b y'
+  # Submit Interactive Binary
+  alias qsub_ibin 'qrsh -cwd -V -q asic64.q -now no -b y'
 
-# Submit Interactive Script
-alias qsub_iscr 'qrsh -cwd -V -q asic64.q -now no'
+  # Submit Interactive Script
+  alias qsub_iscr 'qrsh -cwd -V -q asic64.q -now no'
+
+endif
