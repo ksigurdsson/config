@@ -106,7 +106,7 @@ unsetenv LC_MONETARY LC_MESSAGES LC_ALL
 # Save original login path
 if ($?PATH) then
    setenv PATH_LOGIN "${PATH}"
-   setenv PATH ".:${HOME}/bin:${PATH}"
+   setenv PATH ".:${PATH}"
 endif
 
 #-------------------------------------------------------------------------------
