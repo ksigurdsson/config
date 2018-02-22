@@ -1,0 +1,28 @@
+#!/bin/tcsh
+
+# Notes:
+
+# Useful switch for debugging cygwin run.exe is --run-debug=2
+
+echo "Starting Cygwin X Server"
+set cmd = '/mnt/c/cygwin64/bin/run.exe --wait --quote /usr/bin/bash.exe -l -c "cd; exec /usr/bin/startxwin -- -listen tcp &"'
+eval $cmd
+sleep 5
+
+
+echo "Setting X Authentication"
+cd /home/karls && cp /mnt/c/cygwin64/home/karls/.Xauthority /home/karls
+
+
+echo "Set DISPLAY environment variable e.g. setenv DISPLAY :0.0"
+
+# xrandr --listmonitors
+# xrandr: Failed to get size of gamma for output default
+# Monitors: 1
+#  0: +*default 5920/1566x2560/677+0+0  default
+
+# xrandr --current
+# xrandr: Failed to get size of gamma for output default
+# Screen 0: minimum 0 x 0, current 5920 x 2560, maximum 32768 x 32768
+# default connected primary 5920x2560+0+0 0mm x 0mm
+#    5920x2560      0.00*

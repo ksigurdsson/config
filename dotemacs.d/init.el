@@ -8,7 +8,9 @@
 (add-to-list 'load-path "~/.emacs.d/config")
 (add-to-list 'load-path "~/.emacs.d/prog_modes")
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/config/themes/")
+; Configure emacs themes
+(when (>= emacs-major-version 24)
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/config/themes/"))
 
 ; Configure emacs packages
 (when (>= emacs-major-version 24)
@@ -48,9 +50,3 @@
      (folded-file . t)
      (folding-mode . t))))
  '(tabbar-separator (quote (0.5))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
