@@ -302,6 +302,10 @@ if (`where module` == "") then
         case "Linux64"
             if (-f /usr/share/modules/init/tcsh) source /usr/share/modules/init/tcsh
         breaksw
+
+        case "macOS"
+            if (-f /usr/local/opt/modules/init/tcsh) source /usr/local/opt/modules/init/tcsh
+        breaksw
         
     endsw
 
