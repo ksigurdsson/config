@@ -371,9 +371,9 @@
 ;                )
 ;              auto-mode-alist))
 
-(autoload 'python-mode "~/.emacs.d/prog-modes/python-mode.el-6.1.3/python-mode" "Python Mode." t)
- (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
- (add-to-list 'interpreter-mode-alist '("python" . python-mode))
+;(autoload 'python-mode "~/.emacs.d/prog-modes/python-mode.el-6.1.3/python-mode" "Python Mode." t)
+; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+; (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
 
 ;***********************
