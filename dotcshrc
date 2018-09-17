@@ -311,10 +311,6 @@ if (`where module` == "") then
 
 endif
 
-if (-d ${HOME}/tools/modulefiles) then
-    setenv MODULEPATH ${MODULEPATH}:${HOME}/tools/modulefiles
-endif
-
 #-------------------------------------------------------------------------------
 # Aliases
 #-------------------------------------------------------------------------------

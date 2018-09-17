@@ -1,3 +1,4 @@
 #%Module1.0
 
-module use -a $env(HOME)/tools/modulefiles
+module use -a $env(HOME)/tools/modulefiles/local
+module use -a $env(HOME)/tools/modulefiles/docker
