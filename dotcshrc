@@ -284,10 +284,6 @@ else
     set prompt = "%{\033[32m%}$SYS_ARCH %{\033[00m%}[$PROMPT_SUFFIX] > "
 endif
 
-# Set the current working directory as the terminal title
-#if ( "$UNAME" == "SunOS" ) alias cwdcmd 'printf "\033]0;$cwd\007"'
-#if ( "$UNAME" == "Linux" ) alias cwdcmd 'echo -n "\033]0;$cwd\007"'
-
 # Default file permissions
 umask 027
 
@@ -320,15 +316,20 @@ unalias rm
 
 switch ("${SYS_ARCH}")
   case "SunOS"
-    
+    # Set the current working directory as the terminal title
+    alias cwdcmd 'printf "\033]0;$cwd\007"'
   breaksw
 
   case "Linux32"
     alias ls                        'ls -h --color=auto'
+    # Set the current working directory as the terminal title
+    alias cwdcmd 'echo -n "\033]0;$cwd\007"'
   breaksw
 
   case "Linux64"
     alias ls                        'ls -h --color=auto'
+    # Set the current working directory as the terminal title
+    alias cwdcmd 'echo -n "\033]0;$cwd\007"'
   breaksw
 
   case "macOS"
