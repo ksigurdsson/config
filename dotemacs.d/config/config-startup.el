@@ -21,9 +21,9 @@
 
 (require 'paren)
 (show-paren-mode 1)
-(set-face-background 'show-paren-match-face "blue")
-(set-face-foreground 'show-paren-match-face "white")
-(set-face-attribute  'show-paren-match-face nil :weight 'extra-bold)
+(set-face-background 'show-paren-match "blue")
+(set-face-foreground 'show-paren-match "white")
+(set-face-attribute  'show-paren-match nil :weight 'extra-bold)
 
 ;--------------------------------------------------------------------------------
 ; Tabbed Buffers
