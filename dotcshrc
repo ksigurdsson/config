@@ -43,6 +43,7 @@ switch ("${UNAME}")
     #------------------------------------------
     case "SunOS"
         setenv SYS_ARCH Solaris64
+        setenv EDITOR "emacs -nw -no-autoloads"
     breaksw
      
     #------------------------------------------
@@ -54,6 +55,7 @@ switch ("${UNAME}")
         else if ( `uname -m` == "x86_64") then
             setenv SYS_ARCH Linux64
         endif
+        setenv EDITOR "emacs -nw"
     breaksw
 
     #------------------------------------------
@@ -61,6 +63,7 @@ switch ("${UNAME}")
     #------------------------------------------
     case "Darwin"
         setenv SYS_ARCH macOS
+        setenv EDITOR "emacs -nw"
         setenv LSCOLORS exfxcxdxcxegedabagacad
     breaksw
 
@@ -110,7 +113,7 @@ if ($?PATH) then
 endif
 
 #-------------------------------------------------------------------------------
-# General user specific environment
+# Configure Terminal 'ls' Colours
 #-------------------------------------------------------------------------------
     
 setenv LS_COLORS    "fi=0:di=34:ln=36:ex=32:*~=31:*#=31:*.c=33:*.h=33:*.s=32:*.o=31:*.gz=31:*.tgz=31:*.Z=31:*.jpg=35:*.gif=35:*.pbm=35:*.log=37"
@@ -150,10 +153,6 @@ setenv LS_COLORS    "fi=0:di=34:ln=36:ex=32:*~=31:*#=31:*.c=33:*.h=33:*.s=32:*.o
 #  45 purple background 
 #  46 cyan background 
 #  47 white (or gray) background
-
-# Set editor
-if ( "$UNAME" == "Linux" ) setenv EDITOR "emacs -nw"
-if ( "$UNAME" == "SunOS" ) setenv EDITOR "emacs -nw -no-autoloads"
 
 #-------------------------------------------------------------------------------
 # Setup command prompt
