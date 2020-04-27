@@ -21,8 +21,10 @@
  ((string-equal system-type "darwin") ; Mac OS X
   (progn
     (message "Mac OS X")
-    (setq my-font "-*-Lucida Sans Typewriter-normal-normal-semicondensed-*-10-*-*-*-p-0-iso10646-1")
-    (setq my-bold-font "-*-Lucida Sans Typewriter-bold-normal-semicondensed-*-10-*-*-*-p-0-iso10646-1")
+    ;(setq my-font "-*-Lucida Sans Typewriter-normal-normal-semicondensed-*-10-*-*-*-p-0-iso10646-1")
+    ;(setq my-bold-font "-*-Lucida Sans Typewriter-bold-normal-semicondensed-*-10-*-*-*-p-0-iso10646-1")
+    (setq my-font "Courier New-11:weight=normal")
+    (setq my-bold-font "Courier New-11:weight=bold")
     )
   )
  ((string-equal system-type "gnu/linux") ; linux
