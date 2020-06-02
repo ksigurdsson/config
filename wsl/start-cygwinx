@@ -11,7 +11,9 @@ sleep 5
 
 
 echo "Setting X Authentication"
-cd /home/karls && cp /mnt/c/cygwin64/home/karls/.Xauthority /home/karls
+set winusername = `powershell.exe '$env:UserName'`
+set cmd = "cp /mnt/c/cygwin64/home/`echo $winusername`/.Xauthority $HOME/"
+eval $cmd
 
 
 echo "Set DISPLAY environment variable e.g. setenv DISPLAY :0.0"
