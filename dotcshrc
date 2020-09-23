@@ -52,7 +52,7 @@ switch ("${UNAME}")
   #------------------------------------------
   case "Linux"
     if ( `uname -r` =~ *Microsoft) then
-      setenv SYS_ARCH WSL-64
+      setenv SYS_ARCH WSL-1
     else if ( `uname -m` == "i686") then
       setenv SYS_ARCH Linux32
     else if ( `uname -m` == "x86_64") then
@@ -120,7 +120,7 @@ endif
 
 switch ("${SYS_ARCH}")
 
-  case "WSL-64"
+  case "WSL-1"
     setenv LS_COLORS "fi=0:di=01;34:ln=01;36:ex=32:*~=31:*#=31:*.c=33:*.h=33:*.s=32:*.o=31:*.gz=31:*.tgz=31:*.Z=31:*.jpg=35:*.gif=35:*.pbm=35:*.log=37"
   breaksw
 
@@ -314,7 +314,7 @@ if (`where module` == "") then
       if (-f /usr/share/modules/init/tcsh) source /usr/share/modules/init/tcsh
     breaksw
 
-    case "WSL-64"
+    case "WSL-1"
       if (-f /usr/share/modules/init/tcsh) source /usr/share/modules/init/tcsh
      breaksw
 
@@ -351,7 +351,7 @@ switch ("${SYS_ARCH}")
     alias cwdcmd 'echo -n "\033]0;$cwd\007"'
   breaksw
 
-  case "WSL-64"
+  case "WSL-1"
     alias ls                        'ls -h --color=auto'
     # Set the current working directory as the terminal title
     alias cwdcmd 'echo -n "\033]0;$cwd\007"'
