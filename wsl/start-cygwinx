@@ -7,7 +7,7 @@
 echo "Starting Cygwin X Server"
 set cmd = '/mnt/c/cygwin64/bin/run.exe --wait --quote /usr/bin/bash.exe -l -c "cd; exec /usr/bin/startxwin -- -listen tcp &"'
 eval $cmd
-sleep 5
+sleep 15
 
 
 echo "Setting X Authentication"
@@ -16,7 +16,9 @@ set cmd = "cp /mnt/c/cygwin64/home/`echo $winusername`/.Xauthority $HOME/"
 eval $cmd
 
 
-echo "Set DISPLAY environment variable e.g. setenv DISPLAY :0.0"
+echo "Set DISPLAY environment variable e.g. setenv DISPLAY <nameserver>:0"
+set ip_address = `grep -m 1 nameserver /etc/resolv.conf | awk '{print $2}'`
+echo "setenv DISPLAY ${ip_address}:0.0"
 
 # xrandr --listmonitors
 # xrandr: Failed to get size of gamma for output default
