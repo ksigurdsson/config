@@ -15,6 +15,15 @@
 (global-set-key '[f8] 'revert-buffer)
 (global-set-key '[f9] 'help)
 
+(cond
+ ((string-equal system-type "darwin") ; Mac OS X
+  (progn
+    (message "Disabling Mac Right Option Key")
+    (setq-default mac-right-option-modifier nil)
+    )
+  )
+ )
+
 ;; wheel mouse
 (setq imwheel-scroll-interval 2)
 (defun imwheel-scroll-down-some-lines ()
