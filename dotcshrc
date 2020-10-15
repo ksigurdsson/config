@@ -111,8 +111,19 @@ unsetenv LC_MONETARY LC_MESSAGES LC_ALL
 # Save original login path
 if ($?PATH) then
   setenv PATH_LOGIN "${PATH}"
-  setenv PATH ".:${PATH}"
 endif
+
+switch ("${SYS_ARCH}")
+
+  case "macOS"
+    setenv PATH ".:/usr/local/sbin:${PATH}"
+  breaksw
+
+  default
+    setenv PATH ".:${PATH}"
+  breaksw
+        
+endsw
 
 #-------------------------------------------------------------------------------
 # Configure Terminal 'ls' Colours
