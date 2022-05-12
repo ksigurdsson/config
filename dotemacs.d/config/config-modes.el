@@ -68,9 +68,9 @@
 (add-hook 'text-mode-hook
 	  (function (lambda ()
 		      (setq tab-stop-list '(4 8 12 16 20 24 32 40 48 56 64 72 80 88 112))
-		      (auto-fill-mode)
-		      (setq fill-column 76)
-		      (local-set-key "\C-f" 'fill-paragraph)
+;		      (auto-fill-mode)
+;		      (setq fill-column 76)
+;		      (local-set-key "\C-f" 'fill-paragraph)
 ;		      (local-set-key "\C-m" 'newline-and-indent)
 		      )))
 
