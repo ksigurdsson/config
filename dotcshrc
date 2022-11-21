@@ -137,7 +137,7 @@ switch ("${SYS_ARCH}")
   breaksw
 
   case "macOS"
-    setenv LSCOLORS exfxcxdxcxegedabagacad
+    setenv LSCOLORS exgxcxdxcxegedabagacad
   breaksw
 
   default
@@ -372,6 +372,7 @@ switch ("${SYS_ARCH}")
 
   case "macOS"
     alias ls                        'ls -h -G'
+    alias gtkwave                   '/Applications/gtkwave.app/Contents/Resources/bin/gtkwave'
   breaksw
 
   case "HPUX"
