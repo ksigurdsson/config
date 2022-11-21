@@ -33,6 +33,9 @@
 ;--------------------------------------------------------------------------------
 ; Misc
 
+; Show trailing whitespace
+(setq-default show-trailing-whitespace t)
+
 ;; silently load bytecomp
 (load "bytecomp" nil t)
 
