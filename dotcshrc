@@ -1,5 +1,5 @@
 #!/bin/tcsh
-    
+
 #-------------------------------------------------------------------------------
 # Setup tcsh and csh switches
 #-------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ switch ("${UNAME}")
     setenv SYS_ARCH Solaris64
     setenv EDITOR "emacs -nw -no-autoloads"
   breaksw
-     
+
   #------------------------------------------
   # Linux
   #------------------------------------------
@@ -95,7 +95,7 @@ endsw
 
 # Setting LANG=C enables some very old-fashioned standard-conforming details
 # and allows an implementation to skip lots of fancy language processing code.
-# Another common setting is LANG=en_US.UTF-8.  That setting tells the various 
+# Another common setting is LANG=en_US.UTF-8.  That setting tells the various
 # system functions in libc to expect strings to be in a rich text format.
 setenv LANG "C"
 
@@ -117,13 +117,21 @@ switch ("${SYS_ARCH}")
 
   case "macOS"
     setenv PATH ".:/usr/local/sbin:${PATH}"
-    eval `/opt/homebrew/bin/brew shellenv`
+
+    # If Homebrew is installed then set it up - note: it updates $PATH etc. hence why it's done here
+    if (-f /opt/homebrew/bin/brew) eval `/opt/homebrew/bin/brew shellenv`
+
+    # Note: `brew install coreutils` then add to path below to get gnu versions of common utils
+    if (-d /opt/homebrew/opt/coreutils/libexec/gnubin) setenv PATH "/opt/homebrew/opt/coreutils/libexec/gnubin:${PATH}"
+
+    # Finally, add . to the frontend of $PATH
+    setenv PATH ".:${PATH}"
   breaksw
 
   default
     setenv PATH ".:${PATH}"
   breaksw
-        
+
 endsw
 
 #-------------------------------------------------------------------------------
@@ -143,9 +151,9 @@ switch ("${SYS_ARCH}")
   default
     setenv LS_COLORS "fi=0:di=34:ln=36:ex=32:*~=31:*#=31:*.c=33:*.h=33:*.s=32:*.o=31:*.gz=31:*.tgz=31:*.Z=31:*.jpg=35:*.gif=35:*.pbm=35:*.log=37"
   breaksw
-        
+
 endsw
-    
+
 # File Types
 
 # di = directory
@@ -161,25 +169,25 @@ endsw
 
 #   NB: Colour Codes
 
-#   0 restore default color 
-#   1 brighter colors 
-#   4 underlined text 
-#   5 flashing text 
-#  30 black foreground 
-#  31 red foreground 
-#  32 green foreground 
-#  33 yellow (or brown) foreground 
-#  34 blue foreground 
-#  35 purple foreground 
-#  36 cyan foreground 
-#  37 white (or gray) foreground 
-#  40 black background 
-#  41 red background 
-#  42 green background 
-#  43 yellow (or brown) background 
-#  44 blue background 
-#  45 purple background 
-#  46 cyan background 
+#   0 restore default color
+#   1 brighter colors
+#   4 underlined text
+#   5 flashing text
+#  30 black foreground
+#  31 red foreground
+#  32 green foreground
+#  33 yellow (or brown) foreground
+#  34 blue foreground
+#  35 purple foreground
+#  36 cyan foreground
+#  37 white (or gray) foreground
+#  40 black background
+#  41 red background
+#  42 green background
+#  43 yellow (or brown) background
+#  44 blue background
+#  45 purple background
+#  46 cyan background
 #  47 white (or gray) background
 
 #-------------------------------------------------------------------------------
@@ -255,19 +263,19 @@ endsw
 # %R  In prompt2, the  status  of  the  parser.   In
 #    prompt3,  the  corrected  string.  In history,
 #    the history string.
-# 
+#
 # Next, on to color. This directly builds on the previous section by adding color
-# escape sequences to the formatting sequences you can use. 
+# escape sequences to the formatting sequences you can use.
 # The following code colors the hostname red:
-# 
+#
 # %{\033[31m%}%m%{\033[0m%}
-# 
-# The '31' and the %m are the only things you change. The 31 is the color code, and 
-# the %m is obviously where you put whatever you want to color. The rest of it is 
-# the same for every color coding; the beginning starts coloring, and the stuff 
-# afterwards stops coloring ('0' switches it back to default text color). 
+#
+# The '31' and the %m are the only things you change. The 31 is the color code, and
+# the %m is obviously where you put whatever you want to color. The rest of it is
+# the same for every color coding; the beginning starts coloring, and the stuff
+# afterwards stops coloring ('0' switches it back to default text color).
 # You can use the following color codes:
-# 
+#
 # 30 - black
 # 31 - red
 # 32 - green
@@ -276,35 +284,35 @@ endsw
 # 35 - magenta
 # 36 - cyan
 # 37 - white
-# 
-# Not quite the same as a full Photoshop palette, but you can make a pretty nice 
+#
+# Not quite the same as a full Photoshop palette, but you can make a pretty nice
 # prompt with it. Also, you can modify it further by including another control char:
-# 
+#
 # %{\033[1;31m%}%m%{\033[0m%}
-# 
+#
 # In this case, the '1' will make the following color bold. You can use the following modifiers:
-# 
+#
 # 0 - normal
 # 1 - bold
 # 2 - normal again
 # 3 - background color
 # 4 - underline the text
 # 5 - blinking
-# 
-# You can also specify both a foreground and a background color. Use the following syntax to 
+#
+# You can also specify both a foreground and a background color. Use the following syntax to
 # get (fairly hideous looking) Christmas colors:
-# 
+#
 # %{\033[2;41;32m%}%m%{\033[0m%}
-# 
-# The '41' is the background color, and the '31' is the foreground color. The background 
+#
+# The '41' is the background color, and the '31' is the foreground color. The background
 # color codes are the same as the foreground color codes, except they're 40-47 instead of 30-37.
-# 
-# Finally, you can also have a right-justified prompt. This is stored in the RPROMPT variable, 
+#
+# Finally, you can also have a right-justified prompt. This is stored in the RPROMPT variable,
 # and formatted in exactly the same way as PROMPT. People often like putting the time (%p) in RPROMPT.
 
 setenv PROMPT_SUFFIX `echo ${HOST} | sed 's/\..*//g'`
 
-# Root prompt in red - user prompt in green 
+# Root prompt in red - user prompt in green
 if ("$USER" == "root" ) then
   set prompt = "%{\033[31m%}$SYS_ARCH %{\033[00m%}[$PROMPT_SUFFIX] > "
 else
@@ -334,7 +342,7 @@ if (`where module` == "") then
       if (-f /usr/local/opt/modules/init/tcsh) source /usr/local/opt/modules/init/tcsh
       if (-f /opt/homebrew/opt/modules/init/tcsh) source /opt/homebrew/opt/modules/init/tcsh
     breaksw
-    
+
   endsw
 
 endif
@@ -371,7 +379,8 @@ switch ("${SYS_ARCH}")
   breaksw
 
   case "macOS"
-    alias ls                        'ls -h -G'
+    #alias ls                        'ls -h -G'
+    alias ls                        'ls -h --color=auto'
     alias gtkwave                   '/Applications/gtkwave.app/Contents/Resources/bin/gtkwave'
   breaksw
 
@@ -417,7 +426,7 @@ if (`where qsub` != "") then
                  echo "Total";\
                  qstat -u "*" | egrep "( r | qw )" | cut -c 28-34 | sort | uniq -c'
 
-  # Current running jobs on asic64 queue 
+  # Current running jobs on asic64 queue
   alias qrunning 'echo "Running asic64.q";\
                   qstat -u "*" | egrep "( r )" | grep asic64.q'
 
