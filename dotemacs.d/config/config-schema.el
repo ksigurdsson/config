@@ -114,7 +114,7 @@
 (set-face-font       'font-lock-string-face my-font)
 (set-face-foreground 'font-lock-string-face "yellow")
 ;(set-face-foreground 'font-lock-string-face "cyan")
-(set-face-underline-p 'font-lock-string-face nil)
+;(set-face-underline-p 'font-lock-string-face nil)
 
 ;--------------------------------------
 ; Keywords
