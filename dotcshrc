@@ -124,6 +124,12 @@ switch ("${SYS_ARCH}")
     # Note: `brew install coreutils` then add to path below to get gnu versions of common utils
     if (-d /opt/homebrew/opt/coreutils/libexec/gnubin) setenv PATH "/opt/homebrew/opt/coreutils/libexec/gnubin:${PATH}"
 
+    # The following are keg-only, which means they are not symlinked into /opt/homebrew, because
+    # they are an alternate version of another formula.
+    # Add them to appear first in PATH
+    if (-d /opt/homebrew/opt/ruby@3.1/bin) setenv PATH "/opt/homebrew/opt/ruby@3.1/bin:${PATH}"
+    if (-d /opt/homebrew/opt/m4/bin) setenv PATH "/opt/homebrew/opt/m4/bin:${PATH}"
+
     # Finally, add . to the frontend of $PATH
     setenv PATH ".:${PATH}"
   breaksw
