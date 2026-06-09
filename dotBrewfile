@@ -1,0 +1,61 @@
+###############################################################################
+# General Homebrew package list
+#
+# Install packages with: brew bundle install --global --verbose
+# See: https://docs.brew.sh/Brew-Bundle-and-Brewfile
+###############################################################################
+
+# Resource monitor. C++ version and continuation of bashtop and bpytop
+brew "btop"
+
+# Distributed revision control system
+brew "git"
+
+# Git extension for versioning large files
+brew "git-lfs"
+
+# Mac App Store command-line interface
+brew "mas"
+
+# Drivers for DisplayLink docks, adapters and monitors
+cask "displaylink"
+
+# Text editor
+cask "emacs-app"
+
+# Terminal emulator as alternative to Apple's Terminal app
+cask "iterm2"
+
+# Electronics design automation suite
+cask "kicad"
+
+# Visual diff and merge tool
+cask "meld"
+
+# Replacement for Docker Desktop
+cask "orbstack"
+
+# Home media player
+cask "plex"
+
+# Open-source code editor
+cask "visual-studio-code"
+
+# Open-source version of the X.Org X Window System
+cask "xquartz"
+
+mas "eDrawings", id: 1209754386
+mas "GarageBand", id: 682658836
+mas "Slack", id: 803453959
+mas "Tailscale", id: 1475387142
+
+vscode "cordialgh.tj3-lang"
+vscode "eirikpre.systemverilog"
+vscode "go2sh.tcl-language-support"
+vscode "ms-azuretools.vscode-containers"
+vscode "ms-python.debugpy"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "ms-python.vscode-python-envs"
+vscode "ms-vscode-remote.remote-containers"
+vscode "ms-vscode.makefile-tools"
